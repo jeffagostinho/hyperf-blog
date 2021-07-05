@@ -1,0 +1,51 @@
+version: '3.9'
+volumes:
+  hyperf-blog-mysql-data:
+    driver: local
+  hyperf-blog-redis-data:
+    driver: local
+services:
+  hyperf-blog-app:
+    build:
+      context: .
+    entrypoint: sh
+    tty: true
+    container_name: hyperf-blog-app
+    volumes:
+      - ./:/opt/www
+    ports:
+      - 9501:9501
+    networks:
+      - bubble
+    links:
+      - hyperf-blog-mysql
+      - hyperf-blog-redis
+  hyperf-blog-mysql:
+    image: mysql:8
+    command: --default-authentication-plugin=mysql_native_password
+    container_name: hyperf-blog-mysql
+    volumes:
+      - hyperf-blog-mysql-data:/var/lib/mysql
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=hyperf_blog
+      - MYSQL_DATABASE=hyperf_blog
+      - MYSQL_USER=hyperf_blog
+      - MYSQL_PASSWORD=hyperf_blog
+    networks:
+      - bubble
+  hyperf-blog-redis:
+    image: redis:6
+    container_name: hyperf-blog-redis
+    command: --appendonly yes
+    volumes:
+      - hyperf-blog-redis-data:/data
+    ports:
+      - 6379:6379
+    networks:
+      - bubble
+
+networks:
+  bubble:
+    external: true

@@ -14,8 +14,8 @@ LABEL maintainer="Hyperf Developers <group@hyperf.io>" version="1.0" license="MI
 # --build-arg timezone=Asia/Shanghai
 ARG timezone
 
-ENV TIMEZONE=${timezone:-"Asia/Shanghai"} \
-    APP_ENV=prod \
+ENV TIMEZONE=${timezone:-"America/Sao_Paulo"} \
+    APP_ENV=dev \
     SCAN_CACHEABLE=(true)
 
 # update
@@ -43,11 +43,11 @@ RUN set -ex \
 WORKDIR /opt/www
 
 # Composer Cache
-# COPY ./composer.* /opt/www/
-# RUN composer install --no-dev --no-scripts
+ COPY ./composer.* /opt/www/
+# RUN composer install --ignore-platform-reqs && php bin/hyperf.php
 
 COPY . /opt/www
-RUN composer install --no-dev -o && php bin/hyperf.php
+RUN composer install --ignore-platform-reqs && php bin/hyperf.php
 
 EXPOSE 9501
 
