@@ -10,9 +10,8 @@ declare(strict_types=1);
  * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
  */
 use Hyperf\HttpServer\Router\Router;
+use HyperfBlog\Post\UI\Api\Routes\Post as PostRouter;
 
 Router::addRoute(['GET', 'POST', 'HEAD'], '/', 'App\Controller\IndexController@index');
 
-Router::get('/favicon.ico', function () {
-    return '';
-});
+PostRouter::routes();

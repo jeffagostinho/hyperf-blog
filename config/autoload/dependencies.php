@@ -9,5 +9,7 @@ declare(strict_types=1);
  * @contact  group@hyperf.io
  * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
  */
-return [
-];
+return array_merge(
+    \HyperfBlog\Post\Infrastructure\Providers\DependencyInjection::register(),
+    \HyperfBlog\Shared\Infrastructure\Providers\DependencyInjection::register()
+);
